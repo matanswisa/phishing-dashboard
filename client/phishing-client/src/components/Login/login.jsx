@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from "react-router";
 
 const LoginPage = (props) => {
+
+    const navigate = useNavigate();
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -15,6 +18,10 @@ const LoginPage = (props) => {
         axios.post('http://localhost:8080/api/user/login', { mail: username, password })
             .then(response => {
                 alert(response.data.message);
+                if (response.data.success) {
+                    navigate('/admin')
+
+                }
             }).catch((error) => {
                 alert(error.response.data.message);
             })

