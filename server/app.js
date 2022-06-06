@@ -3,9 +3,13 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const app = express();
-const userRouter = require('./routes/user');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const userRouter = require('./routes/user');
+const phishingRouter = require('./routes/phishing');
+
+
+const { sendMail } = require('./services/mailer')
 
 dotenv.config();
 
@@ -15,13 +19,19 @@ mongoose.connect('mongodb://localhost:27017/phishing').then(() => {
     console.log(err);
 })
 
+// sendMail().then(() => {
+//     console.log('sent mail');
+// }).catch(err => {
+//     console.log(err);
+// });
 
-app.use(cors({
-    origin: "*"
-}));
+app.use(cors({ origin: "*" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+// routes
 app.use('/api/user', userRouter)
+app.use('/api/', phishingRouter)
 
 app.listen(8080, () => {
     console.log('server listening on port 8080');

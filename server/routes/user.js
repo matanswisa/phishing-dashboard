@@ -6,7 +6,6 @@ const bcrypt = require('bcrypt');
 
 
 const router = Router();
-const saltRounds = 10;
 
 router.post('/login', async (req, res) => {
     try {
