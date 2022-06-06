@@ -11,15 +11,12 @@ const LoginPage = (props) => {
 
     const handleLogin = (event) => {
         event.preventDefault();
-        // axios.defaults.withCredentials = true;
-        // console.log(username, password);
-        axios.post('http://localhost:8080/api/user/login',)
+
+        axios.post('http://localhost:8080/api/user/login', { mail: username, password })
             .then(response => {
-                // setMassageBakend(response.data.message)
-                console.log(response);
                 alert(response.data.message);
             }).catch((error) => {
-                console.log(error);
+                alert(error.response.data.message);
             })
     }
 
