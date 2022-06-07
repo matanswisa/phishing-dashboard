@@ -7,6 +7,8 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const userRouter = require('./routes/user');
 const phishingRouter = require('./routes/phishing');
+const path = require('path');
+
 
 
 const { sendMail } = require('./services/mailer')
@@ -19,15 +21,19 @@ mongoose.connect('mongodb://localhost:27017/phishing').then(() => {
     console.log(err);
 })
 
-// sendMail().then(() => {
-//     console.log('sent mail');
-// }).catch(err => {
-//     console.log(err);
-// });
+sendMail().then(() => {
+    console.log('sent mail');
+}).catch(err => {
+    console.log(err);
+});
+
+app.set("view engine", "pug");
+app.set("views", path.join(__dirname, "views"));
 
 app.use(cors({ origin: "*" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
 
 // routes
 app.use('/api/user', userRouter)
