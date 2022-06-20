@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router";
+import { useRecoilState } from 'recoil';
+import { accessToken as accessTokenAtom } from '../../atoms/atoms'
 
 const LoginPage = (props) => {
 
@@ -8,6 +10,7 @@ const LoginPage = (props) => {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [accessToken, setAccessToken] = useRecoilState(accessTokenAtom);
 
 
 
@@ -15,10 +18,13 @@ const LoginPage = (props) => {
     const handleLogin = (event) => {
         event.preventDefault();
 
+        axios.defaults.withCredentials = true;
         axios.post('http://localhost:8080/api/user/login', { mail: username, password })
             .then(response => {
                 alert(response.data.message);
                 if (response.data.success) {
+                    console.log(response.data.accessToken);
+                    setAccessToken(response.data.accessToken)
                     navigate('/admin')
 
                 }

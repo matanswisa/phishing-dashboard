@@ -21,16 +21,16 @@ mongoose.connect('mongodb://localhost:27017/phishing').then(() => {
     console.log(err);
 })
 
-sendMail().then(() => {
-    console.log('sent mail');
-}).catch(err => {
-    console.log(err);
-});
+// sendMail().then(() => {
+//     console.log('sent mail');
+// }).catch(err => {
+//     console.log(err);
+// });
 
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
 
-app.use(cors({ origin: "*" }));
+app.use(cors({ origin: ['http://localhost:3000'], credentials: true }));
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 

@@ -1,21 +1,29 @@
 const { Router } = require('express');
 const checkUserPassword = require('../helpers/validatePassword');
-const createToken = require('../helpers/tokens');
+const { createToken, verifyToken } = require('../helpers/tokens');
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 
 
 const router = Router();
 
+
+// todo: temporary route to check if the user has access with JWT
+router.get('/isAuth', verifyToken, (req, res) => {
+    res.send({ success: true, message: "yes you are!!!!!" });
+})
+
 router.post('/login', async (req, res) => {
     try {
         const { mail, password } = req.body;
-        let foundUser = await User.findOne({ mail })
+        let foundUser = await User.findOne({ mail });
+
         if (!(foundUser && await checkUserPassword(password, foundUser.password))) {
             return res.status(400).send({ message: 'Invalid username or password', sucess: false });
         }
 
         if (!(process.env.ACCESS_TOKEN.length && process.env.REFRESH_TOKEN.length)) {
+            console.log("here?");
             return res.status(500).send('Something went wrong');
         }
 
